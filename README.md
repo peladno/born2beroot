@@ -438,6 +438,20 @@ For this project, I used VirtualBox because it provides the virtualization envir
 
 # Instructions
 
+## Clone repository
+
+```bash
+git clone <repo_url>
+```
+
+## Check signature.txt exists and compare
+
+```bash
+ls -l
+cat signature.txt
+diff signature.txt /path/to/diskfile.vdi
+```
+
 ## Start the Virtual Machine
 
 Start the Debian virtual machine using VirtualBox.
@@ -445,151 +459,263 @@ Start the Debian virtual machine using VirtualBox.
 After booting, log in using the configured user.
 
 ---
+### ✔ Check UFW or Firewalld
 
-## Check SSH
-
-SSH should be running on port `4242`.
-
-```bash
-sudo systemctl status ssh
-```
-
-Check the listening port:
-
-```bash
-sudo ss -lntp | grep 4242
-```
-
----
-
-## Check Firewall
+For Debian:
 
 ```bash
 sudo ufw status
 ```
 
-The firewall should be active and configured with the required ports.
-
----
-
-## Check AppArmor
+For Rocky:
 
 ```bash
-sudo aa-status
+sudo systemctl status firewalld
 ```
 
----
-
-## Check Lighttpd
-
-For the WordPress bonus:
+### ✔ Check SSH
 
 ```bash
-sudo systemctl status lighttpd
+sudo systemctl status ssh
 ```
 
----
-
-## Check MariaDB
+### ✔ Verify OS
 
 ```bash
-sudo systemctl status mariadb
+cat /etc/os-release
 ```
 
----
-
-## Check PHP
+### ✔ Check your login user exists
 
 ```bash
-php -v
+id <login>
 ```
 
----
+The user must belong to:
 
-## Check Fail2ban
+- [x] `sudo`
+- [ ] `user42`
+
+### ✔ Create a new user
 
 ```bash
-sudo systemctl status fail2ban
+sudo adduser testuser
 ```
 
-To check its jails:
+### ✔ Assign a password
 
 ```bash
-sudo fail2ban-client status
+sudo passwd testuser
 ```
 
-For SSH:
+### ✔ Create a group
 
 ```bash
-sudo fail2ban-client status sshd
+sudo groupadd evaluating
 ```
 
----
-
-# Useful Commands
-
-### Check listening ports
+### ✔ Add user to group
 
 ```bash
-sudo ss -lntp
+sudo usermod -aG evaluating testuser
 ```
 
-### Check running services
+### ✔ Verify
 
 ```bash
-systemctl --type=service --state=running
+groups testuser
 ```
 
-### Check IP address
+### ✔ Check hostname
 
 ```bash
-hostname -I
+hostname
 ```
 
-### Check disk usage
+The hostname must be:
+
+```text
+login42
+```
+
+### ✔ Change hostname to the evaluator's login
+
+Edit:
 
 ```bash
-df -h
+sudo nano /etc/hostname
+sudo nano /etc/hosts
 ```
 
-### Check LVM
+### ✔ Show partitions
 
 ```bash
 lsblk
-sudo vgs
-sudo lvs
+df -h
+sudo fdisk -l
 ```
 
-### Check users
+Replace the old hostname with the evaluator's login.
+
+### ✔ Reboot
 
 ```bash
-getent passwd
+sudo reboot
 ```
 
-### Check groups
+### ✔ Check sudo is installed
 
 ```bash
-getent group
+sudo -V
 ```
 
-## Create user and add to group
+### ✔ Add new user to sudo
 
 ```bash
-sudo adduser <your_login>
-sudo groupadd <group name>
-sudo usermod -aG sudo <your_login>
-sudo usermod -aG user42 <your_login>
+sudo usermod -aG sudo testuser
+```
+### ✔ Show sudo rules
 
-## sudo whoami -> to check if is root
+```bash
+sudo nano /etc/sudoers
 ```
 
-## Verify Group Membership
+And:
 
 ```bash
-groups <your_login>
+sudo nano /etc/sudoers.d/<yourfile>
+```
 
-getent group sudo
-getent group user42
+### ✔ Check sudo logs
+
+```bash
+ls -l /var/log/sudo/
+```
+
+```bash
+cat /var/log/sudo/<file>
+```
+
+### ✔ Run a sudo command
+
+```bash
+sudo ls /
+```
+
+### ✔ Check firewall is installed and running
+
+For Debian:
+
+```bash
+sudo ufw status
+```
+
+For Rocky:
+
+```bash
+sudo firewall-cmd --state
+```
+### ✔ List firewall rules
+
+For Debian:
+
+```bash
+sudo ufw status numbered
+```
+
+For Rocky:
+
+```bash
+sudo firewall-cmd --list-all
+```
+
+### ✔ Add a rule for port 8080
+
+For Debian:
+
+```bash
+sudo ufw allow 8080
+```
+
+For Rocky:
+
+```bash
+sudo firewall-cmd --add-port=8080/tcp --permanent
+sudo firewall-cmd --reload
+```
+
+### ✔ Delete the rule
+
+For Debian:
+
+```bash
+sudo ufw delete allow 8080
+```
+
+For Rocky:
+
+```bash
+sudo firewall-cmd --remove-port=8080/tcp --permanent
+sudo firewall-cmd --reload
+```
+### ✔ Check SSH is installed and running
+
+```bash
+sudo systemctl status ssh
+```
+### ✔ Check SSH configuration
+
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+### ✔ Restart SSH
+
+```bash
+sudo systemctl restart ssh
+```
+
+### ✔ Test SSH login
+
+From the host machine:
+
+```bash
+ssh testuser@<VM_IP> -p 4242
+```
+
+### ✔ Show the monitoring script
+
+```bash
+cat /usr/local/bin/monitoring.sh
+```
+
+### ✔ Show the cron job
+
+The script must run every **10 minutes**.
+
+```bash
+sudo crontab -u root -l
+```
+
+### ✔ Change the cron job to every minute
+
+Edit root's crontab:
+
+```bash
+sudo crontab -u root -e
+```
+
+### ✔ Disable the script at boot WITHOUT modifying the script
+
+```bash
+sudo cronstop
+sudo cronstart
+```
+
+### ✔ Restart
+
+```bash
+sudo reboot
+sudo crontab -u root -e
 ```
 
 ---
