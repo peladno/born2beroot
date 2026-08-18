@@ -1,6 +1,6 @@
-# Born2beRoot
+*This project has been created as part of the 42 curriculum by jperez-u*
 
-_This project has been created as part of the 42 curriculum by javier._
+# Born2beroot
 
 ## Description
 
@@ -450,6 +450,9 @@ git clone <repo_url>
 ls -l
 cat signature.txt
 diff signature.txt /path/to/diskfile.vdi
+
+# diff signature.txt <(shasum /goinfre/jperez-u/jperez-u/jperez-u.vdi | awk '{print $1}')
+
 ```
 
 ## Start the Virtual Machine
