@@ -450,6 +450,9 @@ git clone <repo_url>
 ls -l
 cat signature.txt
 diff signature.txt /path/to/diskfile.vdi
+
+# diff signature.txt <(shasum /goinfre/jperez-u/jperez-u/jperez-u.vdi | awk '{print $1}')
+
 ```
 
 ## Start the Virtual Machine
