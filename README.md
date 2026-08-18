@@ -1,6 +1,6 @@
-# Born2beRoot
+*This project has been created as part of the 42 curriculum by jperez-u*
 
-_This project has been created as part of the 42 curriculum by javier._
+# Born2beroot
 
 ## Description
 
