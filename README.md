@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by jperez-u*
+_This project has been created as part of the 42 curriculum by jperez-u_
 
 # Born2beroot
 
@@ -451,7 +451,7 @@ ls -l
 cat signature.txt
 diff signature.txt /path/to/diskfile.vdi
 
-# diff signature.txt <(shasum /goinfre/jperez-u/jperez-u/jperez-u.vdi | awk '{print $1}')
+# diff signature.txt <(shasum /sgoinfre/jperez-u/born2beroot/born2beroot.vdi | awk '{print $1}')
 
 ```
 
@@ -462,6 +462,7 @@ Start the Debian virtual machine using VirtualBox.
 After booting, log in using the configured user.
 
 ---
+
 ### ✔ Check UFW or Firewalld
 
 For Debian:
@@ -577,6 +578,7 @@ sudo -V
 ```bash
 sudo usermod -aG sudo testuser
 ```
+
 ### ✔ Show sudo rules
 
 ```bash
@@ -618,6 +620,7 @@ For Rocky:
 ```bash
 sudo firewall-cmd --state
 ```
+
 ### ✔ List firewall rules
 
 For Debian:
@@ -661,16 +664,19 @@ For Rocky:
 sudo firewall-cmd --remove-port=8080/tcp --permanent
 sudo firewall-cmd --reload
 ```
+
 ### ✔ Check SSH is installed and running
 
 ```bash
 sudo systemctl status ssh
 ```
+
 ### ✔ Check SSH configuration
 
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
+
 ### ✔ Restart SSH
 
 ```bash
